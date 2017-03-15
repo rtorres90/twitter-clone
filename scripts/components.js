@@ -19,7 +19,7 @@ class ParentPage extends React.Component {
 		const newTweet = {
 			'id': this.state.tweets.length + 1,
 			'tweetText': tweetText,
-			'userId': this.props.currentUser.id
+			'userId': this.state.currentUser.id
 		};
 
 		this.setState({
@@ -36,7 +36,7 @@ class ParentPage extends React.Component {
 					<br/>
 					</div>-
 					<div className="col-md-10">
-						<NewTweetForm addTweet={this._addTweet.bind(this)}/>
+						<NewTweetForm addTweet={this._addTweet.bind(this)} />
 					</div>
 				</div>
 				<div className="row div-bordered">
@@ -85,10 +85,14 @@ class TweetsBox extends React.Component{
 	_getTweetsData(){
 		return (this.props.tweets);
 	}
+	
+	_getUserData(userId){
+		return(this.props.users.find(function(user){return userId == user.id}));
+	}
 
 	_getTweetsComponents(){
 		return(
-			this._getTweetsData().map((tweet) => <Tweet key={tweet.id} tweetText={tweet.tweetText}/>)
+			this._getTweetsData().map((tweet) => <Tweet key={tweet.id} tweetText={tweet.tweetText} userName={this._getUserData(tweet.userId).userName}/>)
 			);
 	}
 
@@ -105,7 +109,7 @@ class Tweet extends React.Component{
 	render(){
 		return(
 			<div className="tweet">
-				<p>{this.props.userName</p>
+				<p>{this.props.userName}</p>
 				<p>{this.props.tweetText}</p>
 			</div>
 			);
